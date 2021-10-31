@@ -1,6 +1,7 @@
 import sys
 import re
-paths = ["viyon.txt", "ningen_shikkaku.txt", "shayo.txt", "hashire_merosu.txt","otogi_zoshi.txt","joseito.txt"]
+paths = ["kumono_ito.txt", "jigokuhen_shinji.txt", "aru_ahono_issho.txt", "rashomon.txt","momotaro.txt"] #ここに作品を入れていく
+#それぞれの作品を読み込み、作品内のいらない箇所を消し一つの文にまとめる
 for path in paths:
     bindata = open("./" + path, "rb")
     lines = bindata.readlines()
@@ -12,7 +13,7 @@ for path in paths:
         text = re.sub(r'《.+?》', '', text)
         text = re.sub(r'［＃.+?］', '' , text)
         #print(text)
-        with open('./data_dazai.txt' , 'a', encoding='utf-8') as f: #path
+        with open('./data_akutagawa.txt' , 'a', encoding='utf-8') as f: #path
             f.write(text + '\n')
             
             
@@ -24,7 +25,7 @@ import numpy as np
 import random
 import sys
 
-path = "./data_dazai.txt"
+path = "./data_akutagawa.txt"
 bindata = open(path, "rb").read()
 text = bindata.decode("utf-8")
 print("Size of text: ",len(text))
@@ -70,7 +71,8 @@ def sample(preds, temperature=1.0):
     probs = np.random.multinomial(1, preds, 1)
     return np.argmax(probs)
 #生成する
-for iteration in range(1): #学習回数にあたる
+epochs=50
+for iteration in range(epochs): #学習回数にあたる
     print()
     print("-"*50)
     print("繰り返し回数: ",iteration)
@@ -101,5 +103,5 @@ for diversity in [0.2, 0.5, 1.0, 1.2]:
         sys.stdout.write(next_char)
         sys.stdout.flush()
     print()
-model.save('dazai_model.h5')
-file = open('dazaigentext.txt','w+',encoding='utf-8').write(generated)
+model.save('akutagawa_model.h5')
+file = open('akutagawagentext.txt','w+',encoding='utf-8').write(generated)
